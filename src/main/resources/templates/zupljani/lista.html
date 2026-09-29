@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Župljani</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Župljani</h1>
+<a th:href="@{/zupljani/novi}" class="btn btn-primary">Dodaj župljanina</a>
+<form th:action="@{/zupljani}" method="get" class="filter-form">
+    <label for="pretraga" class="form-label">Ime ili prezime:</label>
+    <input id="pretraga" name="pretraga" type="search" th:value="${pretraga}" class="form-control">
+    <button type="submit" class="btn btn-primary">Pretraži</button>
+    <a th:href="@{/zupljani}" class="btn btn-outline-secondary">Prikaži sve</a>
+</form>
+<p th:if="${zupljani.isEmpty()}">Nema župljana za prikaz.</p>
+<div class="table-responsive" tabindex="0" role="region" aria-label="Pregled evidencije"><table class="table table-striped table-hover align-middle" th:unless="${zupljani.isEmpty()}">
+    <thead>
+    <tr>
+        <th scope="col">Ime i prezime</th><th scope="col">Datum rođenja</th><th scope="col">Adresa</th>
+        <th scope="col">Telefon</th><th scope="col">Email</th><th scope="col">Status</th><th scope="col">Radnje</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="zupljanin : ${zupljani}">
+        <td th:text="${zupljanin.ime + ' ' + zupljanin.prezime}"></td>
+        <td th:text="${zupljanin.datumRodjenja != null ? #temporals.format(zupljanin.datumRodjenja, 'dd.MM.yyyy.') : '—'}"></td>
+        <td th:text="${zupljanin.adresa}"></td>
+        <td th:text="${zupljanin.telefon}"></td>
+        <td th:text="${zupljanin.email}"></td>
+        <td ><span class="badge" th:classappend="${zupljanin.aktivan ? 'text-bg-success' : 'text-bg-secondary'}" th:text="${zupljanin.aktivan ? 'Aktivan' : 'Neaktivan'}"></span></td>
+        <td>
+            <a th:href="@{/zupljani/{id}(id=${zupljanin.id})}" class="btn btn-outline-primary btn-sm">Detalji</a>
+            <a th:href="@{/zupljani/uredi/{id}(id=${zupljanin.id})}" class="btn btn-outline-primary btn-sm">Uredi</a>
+            <form th:if="${zupljanin.aktivan}"
+                  th:action="@{/zupljani/deaktiviraj/{id}(id=${zupljanin.id})}"
+                  method="post" style="display: inline;"
+                  onsubmit="return confirm('Jeste li sigurni da želite deaktivirati ovog župljanina?');" class="d-inline">
+                <button type="submit" class="btn btn-outline-danger">Deaktiviraj</button>
+            </form>
+            <form th:unless="${zupljanin.aktivan}"
+                  th:action="@{/zupljani/reaktiviraj/{id}(id=${zupljanin.id})}"
+                  method="post" style="display: inline;" class="d-inline">
+                <button type="submit" class="btn btn-primary">Reaktiviraj</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table></div>
+<a th:href="@{/}" class="btn btn-outline-secondary">Povratak na početnu</a>
+</main>
+</body>
+</html>

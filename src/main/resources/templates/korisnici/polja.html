@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="polja(novi)">
+    <div th:if="${#fields.hasGlobalErrors()}" role="alert" class="text-danger small my-2">
+        <p th:each="greska : ${#fields.globalErrors()}" th:text="${greska}"></p>
+    </div>
+    <div class="mb-3"><label for="ime" class="form-label">Ime:</label>
+        <input id="ime" type="text" th:field="*{ime}" maxlength="100" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('ime')}">
+        <p th:if="${#fields.hasErrors('ime')}" th:errors="*{ime}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="prezime" class="form-label">Prezime:</label>
+        <input id="prezime" type="text" th:field="*{prezime}" maxlength="100" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('prezime')}">
+        <p th:if="${#fields.hasErrors('prezime')}" th:errors="*{prezime}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="email" class="form-label">Email:</label>
+        <input id="email" type="email" th:field="*{email}" maxlength="254" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('email')}">
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="lozinka" th:text="${novi ? 'Lozinka:' : 'Nova lozinka:'}" class="form-label">Lozinka:</label>
+        <input id="lozinka" name="lozinka" type="password" autocomplete="new-password"
+               minlength="8" maxlength="72" th:required="${novi}" aria-describedby="uputaLozinka" class="form-control">
+        <p id="uputaLozinka">Lozinka mora imati najmanje 8 znakova i najviše 72 UTF-8 bajta
+            (slova s kvačicama zauzimaju više bajtova).</p>
+        <p th:unless="${novi}">Ostavite prazno ako želite zadržati postojeću lozinku.</p>
+        <p th:if="${#fields.hasErrors('lozinka')}" th:errors="*{lozinka}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="uloga" class="form-label">Uloga:</label>
+        <select id="uloga" th:field="*{uloga}" required class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('uloga')}">
+            <option value="">Odaberite ulogu</option>
+            <option th:each="uloga : ${uloge}" th:value="${uloga}"
+                    th:text="${uloga.name() == 'ADMIN' ? 'Administrator' : (uloga.name() == 'ZUPNIK' ? 'Župnik' : 'Djelatnik')}"></option>
+        </select>
+        <p th:if="${#fields.hasErrors('uloga')}" th:errors="*{uloga}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div>
+        <input id="aktivan" type="checkbox" th:field="*{aktivan}" class="form-check-input" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('aktivan')}">
+        <label for="aktivan" class="form-label">Aktivan račun</label>
+        <p th:if="${#fields.hasErrors('aktivan')}" th:errors="*{aktivan}" role="alert" class="text-danger small my-2"></p>
+    </div>
+</div>
+</body>
+</html>

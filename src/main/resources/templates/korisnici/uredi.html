@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Uredi korisnika</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Uređivanje korisnika</h1>
+<form th:action="@{/korisnici/uredi/{id}(id=${korisnikId})}" th:object="${korisnik}" method="post" class="form-card">
+    <div th:replace="~{korisnici/polja :: polja(false)}"></div>
+    <button type="submit" class="btn btn-primary">Spremi izmjene</button>
+</form>
+<a th:href="@{/korisnici}" class="btn btn-outline-secondary">Odustani</a>
+</main>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podaci krštenja</title>
+</head>
+<body>
+<h1>Podaci krštenja</h1>
+<div th:fragment="polja">
+    <p>Obavezna polja su župljanin, datum i mjesto krštenja.</p>
+    <p th:if="${zupljani.isEmpty()}">Najprije dodajte župljanina u <a th:href="@{/zupljani/novi}" class="link-primary">evidenciju župljana</a>.</p>
+    <div class="mb-3"><label for="zupljaninId" class="form-label">Župljanin:</label>
+        <select id="zupljaninId" th:field="*{zupljaninId}" required class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('zupljaninId')}">
+            <option value="">Odaberite župljanina</option>
+            <option th:each="z : ${zupljani}" th:value="${z.id}"
+                    th:text="${z.ime + ' ' + z.prezime + ' — ' + (z.datumRodjenja != null ? #temporals.format(z.datumRodjenja, 'dd.MM.yyyy.') : 'datum rođenja nije unesen')}"></option>
+        </select>
+        <p th:if="${#fields.hasErrors('zupljaninId')}" th:errors="*{zupljaninId}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="datumKrstenja" class="form-label">Datum krštenja:</label>
+        <input id="datumKrstenja" th:field="*{datumKrstenja}" type="date" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('datumKrstenja')}">
+        <p th:if="${#fields.hasErrors('datumKrstenja')}" th:errors="*{datumKrstenja}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="mjestoKrstenja" class="form-label">Mjesto krštenja:</label>
+        <input id="mjestoKrstenja" th:field="*{mjestoKrstenja}" type="text" maxlength="150" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('mjestoKrstenja')}">
+        <p th:if="${#fields.hasErrors('mjestoKrstenja')}" th:errors="*{mjestoKrstenja}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="imeOca" class="form-label">Ime oca:</label>
+        <input id="imeOca" th:field="*{imeOca}" type="text" maxlength="150" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('imeOca')}">
+        <p th:if="${#fields.hasErrors('imeOca')}" th:errors="*{imeOca}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="imeMajke" class="form-label">Ime majke:</label>
+        <input id="imeMajke" th:field="*{imeMajke}" type="text" maxlength="150" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('imeMajke')}">
+        <p th:if="${#fields.hasErrors('imeMajke')}" th:errors="*{imeMajke}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="imeKuma" class="form-label">Ime kuma:</label>
+        <input id="imeKuma" th:field="*{imeKuma}" type="text" maxlength="150" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('imeKuma')}">
+        <p th:if="${#fields.hasErrors('imeKuma')}" th:errors="*{imeKuma}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="imeKume" class="form-label">Ime kume:</label>
+        <input id="imeKume" th:field="*{imeKume}" type="text" maxlength="150" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('imeKume')}">
+        <p th:if="${#fields.hasErrors('imeKume')}" th:errors="*{imeKume}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="krstitelj" class="form-label">Krstitelj:</label>
+        <input id="krstitelj" th:field="*{krstitelj}" type="text" maxlength="150" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('krstitelj')}">
+        <p th:if="${#fields.hasErrors('krstitelj')}" th:errors="*{krstitelj}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="brojMatice" class="form-label">Broj matice:</label>
+        <input id="brojMatice" th:field="*{brojMatice}" type="text" maxlength="50" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('brojMatice')}">
+        <p th:if="${#fields.hasErrors('brojMatice')}" th:errors="*{brojMatice}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="godinaMatice" class="form-label">Godina matice:</label>
+        <input id="godinaMatice" th:field="*{godinaMatice}" type="number" min="1" max="9999" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('godinaMatice')}">
+        <p th:if="${#fields.hasErrors('godinaMatice')}" th:errors="*{godinaMatice}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="napomena" class="form-label">Napomena:</label>
+        <textarea id="napomena" th:field="*{napomena}" maxlength="2000" rows="4" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('napomena')}"></textarea>
+        <p th:if="${#fields.hasErrors('napomena')}" th:errors="*{napomena}" class="text-danger small my-2"></p>
+    </div>
+</div>
+</body>
+</html>

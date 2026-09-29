@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Detalji prve pričesti</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Detalji prve pričesti</h1>
+<dl class="row card detail-card">
+    <dt class="col-sm-4">Župljanin</dt>
+    <dd class="col-sm-8" th:text="${prvaPricest.zupljanin.ime + ' ' + prvaPricest.zupljanin.prezime}"></dd>
+    <dt class="col-sm-4">Datum rođenja</dt>
+    <dd class="col-sm-8" th:text="${prvaPricest.zupljanin.datumRodjenja != null ? #temporals.format(prvaPricest.zupljanin.datumRodjenja, 'dd.MM.yyyy.') : '—'}"></dd>
+    <dt class="col-sm-4">Datum pričesti</dt>
+    <dd class="col-sm-8" th:text="${#temporals.format(prvaPricest.datumPricesti, 'dd.MM.yyyy.')}"></dd>
+    <dt class="col-sm-4">Mjesto pričesti</dt>
+    <dd class="col-sm-8" th:text="${prvaPricest.mjestoPricesti}"></dd>
+    <dt class="col-sm-4">Broj matice</dt>
+    <dd class="col-sm-8" th:text="${prvaPricest.brojMatice}"></dd>
+    <dt class="col-sm-4">Godina matice</dt>
+    <dd class="col-sm-8" th:text="${prvaPricest.godinaMatice}"></dd>
+    <dt class="col-sm-4">Napomena</dt>
+    <dd class="col-sm-8" th:text="${prvaPricest.napomena}"></dd>
+    <dt class="col-sm-4">Datum kreiranja</dt>
+    <dd class="col-sm-8" th:text="${#temporals.format(prvaPricest.datumKreiranja, 'dd.MM.yyyy.')}"></dd>
+</dl>
+<a th:href="@{/prva-pricest/uredi/{id}(id=${prvaPricest.id})}" class="btn btn-outline-primary btn-sm">Uredi prvu pričest</a>
+<a th:href="@{/prva-pricest}" class="btn btn-outline-secondary">Povratak na prve pričesti</a>
+</main>
+</body>
+</html>

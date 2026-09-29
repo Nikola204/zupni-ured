@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="polja">
+    <div class="mb-3"><label for="ime" class="form-label">Ime:</label>
+        <input id="ime" type="text" th:field="*{ime}" maxlength="100" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('ime')}">
+        <p th:if="${#fields.hasErrors('ime')}" th:errors="*{ime}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="prezime" class="form-label">Prezime:</label>
+        <input id="prezime" type="text" th:field="*{prezime}" maxlength="100" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('prezime')}">
+        <p th:if="${#fields.hasErrors('prezime')}" th:errors="*{prezime}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="datumRodjenja" class="form-label">Datum rođenja:</label>
+        <input id="datumRodjenja" type="date" th:field="*{datumRodjenja}" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('datumRodjenja')}">
+        <p th:if="${#fields.hasErrors('datumRodjenja')}" th:errors="*{datumRodjenja}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="mjestoRodjenja" class="form-label">Mjesto rođenja:</label>
+        <input id="mjestoRodjenja" type="text" th:field="*{mjestoRodjenja}" maxlength="150" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('mjestoRodjenja')}">
+        <p th:if="${#fields.hasErrors('mjestoRodjenja')}" th:errors="*{mjestoRodjenja}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="adresa" class="form-label">Adresa:</label>
+        <input id="adresa" type="text" th:field="*{adresa}" maxlength="255" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('adresa')}">
+        <p th:if="${#fields.hasErrors('adresa')}" th:errors="*{adresa}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="telefon" class="form-label">Telefon:</label>
+        <input id="telefon" type="tel" th:field="*{telefon}" maxlength="50" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('telefon')}">
+        <p th:if="${#fields.hasErrors('telefon')}" th:errors="*{telefon}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="email" class="form-label">Email:</label>
+        <input id="email" type="email" th:field="*{email}" maxlength="254" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('email')}">
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" role="alert" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="napomena" class="form-label">Napomena:</label>
+        <textarea id="napomena" th:field="*{napomena}" maxlength="2000" rows="4" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('napomena')}"></textarea>
+        <p th:if="${#fields.hasErrors('napomena')}" th:errors="*{napomena}" role="alert" class="text-danger small my-2"></p>
+    </div>
+</div>
+</body>
+</html>

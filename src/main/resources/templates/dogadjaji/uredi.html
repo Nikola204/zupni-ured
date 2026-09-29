@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Uredi događaj</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Uređivanje događaja</h1>
+
+<form th:action="@{/dogadjaji/uredi/{id}(id=${dogadjaj.id})}"
+      th:object="${dogadjaj}"
+      method="post" class="form-card">
+
+    <div class="mb-3"><label for="naziv" class="form-label">
+            Naziv:
+        </label>
+
+        <input
+                id="naziv"
+                type="text"
+                th:field="*{naziv}"
+                required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('naziv')}">
+        <p th:if="${#fields.hasErrors('naziv')}"
+           th:errors="*{naziv}" class="text-danger small my-2">
+        </p>
+
+    </div>
+
+
+
+    <div class="mb-3"><label for="opis" class="form-label">
+            Opis:
+        </label>
+
+        <textarea
+                id="opis"
+                th:field="*{opis}" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('opis')}">
+        </textarea>
+        <p th:if="${#fields.hasErrors('opis')}"
+           th:errors="*{opis}" class="text-danger small my-2">
+        </p>
+
+    </div>
+
+
+
+    <div class="mb-3"><label for="datum" class="form-label">
+            Datum:
+        </label>
+
+        <input
+                id="datum"
+                type="date"
+                th:field="*{datum}"
+                required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('datum')}">
+        <p th:if="${#fields.hasErrors('datum')}"
+           th:errors="*{datum}" class="text-danger small my-2">
+        </p>
+
+    </div>
+
+
+
+    <div class="mb-3"><label for="vrijeme" class="form-label">
+            Vrijeme:
+        </label>
+
+        <input
+                id="vrijeme"
+                type="time"
+                th:field="*{vrijeme}"
+                required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('vrijeme')}">
+        <p th:if="${#fields.hasErrors('vrijeme')}"
+           th:errors="*{vrijeme}" class="text-danger small my-2">
+        </p>
+
+    </div>
+
+
+
+    <div class="mb-3"><label for="lokacija" class="form-label">
+            Lokacija:
+        </label>
+
+        <input
+                id="lokacija"
+                type="text"
+                th:field="*{lokacija}"
+                required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('lokacija')}">
+        <p th:if="${#fields.hasErrors('lokacija')}"
+           th:errors="*{lokacija}" class="text-danger small my-2">
+        </p>
+
+    </div>
+
+
+
+    <div class="mb-3"><label for="maksimalanBrojSudionika" class="form-label">
+            Maksimalan broj sudionika:
+        </label>
+
+        <input
+                id="maksimalanBrojSudionika"
+                type="number"
+                th:field="*{maksimalanBrojSudionika}"
+                min="1"
+                required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('maksimalanBrojSudionika')}">
+        <p th:if="${#fields.hasErrors('maksimalanBrojSudionika')}"
+           th:errors="*{maksimalanBrojSudionika}" class="text-danger small my-2">
+        </p>
+
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary">
+        Spremi izmjene
+    </button>
+
+</form>
+
+<a th:href="@{/dogadjaji}" class="btn btn-outline-secondary">
+    Odustani
+</a>
+</main>
+</body>
+</html>

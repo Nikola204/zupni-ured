@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Dodavanje obavijesti</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Dodavanje obavijesti</h1>
+<form th:action="@{/admin/obavijesti/novi}" th:object="${obavijest}" method="post" class="form-card">
+<div th:replace="~{obavijesti/admin/polja :: polja}"></div>
+<button type="submit" class="btn btn-primary">Spremi obavijest</button>
+</form>
+<p><a th:href="@{/admin/obavijesti}" class="btn btn-outline-secondary">Povratak na popis obavijesti</a></p>
+</main>
+</body>
+</html>

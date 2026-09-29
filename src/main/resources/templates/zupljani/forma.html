@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Novi župljanin</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Dodavanje župljanina</h1>
+<p>Obavezna polja su ime i prezime.</p>
+<form th:action="@{/zupljani/novi}" th:object="${zupljanin}" method="post" class="form-card">
+    <div th:replace="~{zupljani/polja :: polja}"></div>
+    <button type="submit" class="btn btn-primary">Spremi župljanina</button>
+</form>
+<a th:href="@{/zupljani}" class="btn btn-outline-secondary">Povratak na župljane</a>
+</main>
+</body>
+</html>

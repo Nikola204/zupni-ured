@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Novi korisnik</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Dodavanje korisnika</h1>
+<p>Korisnički računi namijenjeni su samo djelatnicima župnog ureda.</p>
+<form th:action="@{/korisnici/novi}" th:object="${korisnik}" method="post" class="form-card">
+    <div th:replace="~{korisnici/polja :: polja(true)}"></div>
+    <button type="submit" class="btn btn-primary">Spremi korisnika</button>
+</form>
+<a th:href="@{/korisnici}" class="btn btn-outline-secondary">Povratak na korisnike</a>
+</main>
+</body>
+</html>

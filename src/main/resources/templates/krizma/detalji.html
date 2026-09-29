@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Detalji krizme</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Detalji krizme</h1>
+<dl class="row card detail-card">
+    <dt class="col-sm-4">Župljanin</dt>
+    <dd class="col-sm-8" th:text="${krizma.zupljanin.ime + ' ' + krizma.zupljanin.prezime}"></dd>
+    <dt class="col-sm-4">Datum rođenja</dt>
+    <dd class="col-sm-8" th:text="${krizma.zupljanin.datumRodjenja != null ? #temporals.format(krizma.zupljanin.datumRodjenja, 'dd.MM.yyyy.') : '—'}"></dd>
+    <dt class="col-sm-4">Datum krizme</dt>
+    <dd class="col-sm-8" th:text="${#temporals.format(krizma.datumKrizme, 'dd.MM.yyyy.')}"></dd>
+    <dt class="col-sm-4">Mjesto krizme</dt>
+    <dd class="col-sm-8" th:text="${krizma.mjestoKrizme}"></dd>
+    <dt class="col-sm-4">Ime krizmanog kuma</dt>
+    <dd class="col-sm-8" th:text="${krizma.imeKrizmanogKuma}"></dd>
+    <dt class="col-sm-4">Krizmatelj</dt>
+    <dd class="col-sm-8" th:text="${krizma.krizmatelj}"></dd>
+    <dt class="col-sm-4">Broj matice</dt>
+    <dd class="col-sm-8" th:text="${krizma.brojMatice}"></dd>
+    <dt class="col-sm-4">Godina matice</dt>
+    <dd class="col-sm-8" th:text="${krizma.godinaMatice}"></dd>
+    <dt class="col-sm-4">Napomena</dt>
+    <dd class="col-sm-8" th:text="${krizma.napomena}"></dd>
+    <dt class="col-sm-4">Datum kreiranja</dt>
+    <dd class="col-sm-8" th:text="${#temporals.format(krizma.datumKreiranja, 'dd.MM.yyyy.')}"></dd>
+</dl>
+<a th:href="@{/krizma/uredi/{id}(id=${krizma.id})}" class="btn btn-outline-primary btn-sm">Uredi krizmu</a>
+<a th:href="@{/krizma}" class="btn btn-outline-secondary">Povratak na krizme</a>
+</main>
+</body>
+</html>

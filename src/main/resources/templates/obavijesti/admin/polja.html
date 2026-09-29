@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Podaci obavijesti</title></head>
+<body>
+<h1>Podaci obavijesti</h1>
+<div th:fragment="polja">
+<p>Naslov, sadržaj i datum objave su obavezni.</p>
+<ul th:if="${#fields.hasAnyErrors()}" class="text-danger small my-2"><li th:each="greska : ${#fields.allErrors()}" th:text="${greska}"></li></ul>
+<div class="mb-3"><label for="naslov" class="form-label">Naslov:</label>
+<input id="naslov" th:field="*{naslov}" type="text" maxlength="200" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('naslov')}"></div>
+<div class="mb-3"><label for="sadrzaj" class="form-label">Sadržaj:</label>
+<textarea id="sadrzaj" th:field="*{sadrzaj}" rows="12" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('sadrzaj')}"></textarea></div>
+<div class="mb-3"><label for="datumObjave" class="form-label">Datum objave:</label>
+<input id="datumObjave" th:field="*{datumObjave}" type="date" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('datumObjave')}"></div>
+<div class="mb-3"><label for="datumIsteka" class="form-label">Datum isteka:</label>
+<input id="datumIsteka" th:field="*{datumIsteka}" type="date" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('datumIsteka')}"></div>
+<div class="mb-3"><label for="aktivna" class="form-label">Aktivna:</label>
+<input id="aktivna" th:field="*{aktivna}" type="checkbox" class="form-check-input" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('aktivna')}"></div>
+<div class="mb-3"><label for="istaknuta" class="form-label">Istaknuta:</label>
+<input id="istaknuta" th:field="*{istaknuta}" type="checkbox" class="form-check-input" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('istaknuta')}"></div>
+</div>
+</body>
+</html>

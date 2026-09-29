@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Uređivanje krizme</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Uređivanje krizme</h1>
+<form th:action="@{/krizma/uredi/{id}(id=${krizmaId})}" th:object="${krizma}" method="post" class="form-card">
+    <div th:replace="~{krizma/polja :: polja}"></div>
+    <button type="submit" class="btn btn-primary">Spremi promjene</button>
+</form>
+<a th:href="@{/krizma/{id}(id=${krizmaId})}" class="btn btn-outline-secondary">Povratak na detalje</a>
+<a th:href="@{/krizma}" class="btn btn-outline-secondary">Povratak na krizme</a>
+</main>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Detalji misne nakane</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Detalji misne nakane</h1>
+<dl class="row card detail-card">
+<dt class="col-sm-4">Nakana</dt><dd class="col-sm-8" th:text="${misnaNakana.nakana ?: '—'}"></dd>
+<dt class="col-sm-4">Datum</dt><dd class="col-sm-8" th:text="${#temporals.format(misnaNakana.datum, 'dd.MM.yyyy.')}"></dd>
+<dt class="col-sm-4">Vrijeme</dt><dd class="col-sm-8" th:text="${#temporals.format(misnaNakana.vrijeme, 'HH:mm')}"></dd>
+<dt class="col-sm-4">Mjesto</dt><dd class="col-sm-8" th:text="${misnaNakana.mjesto ?: '—'}"></dd>
+<dt class="col-sm-4">Ime naručitelja</dt><dd class="col-sm-8" th:text="${misnaNakana.naruciteljIme ?: '—'}"></dd>
+<dt class="col-sm-4">Prezime naručitelja</dt><dd class="col-sm-8" th:text="${misnaNakana.naruciteljPrezime ?: '—'}"></dd>
+<dt class="col-sm-4">Telefon naručitelja</dt><dd class="col-sm-8" th:text="${misnaNakana.naruciteljTelefon ?: '—'}"></dd>
+<dt class="col-sm-4">Email naručitelja</dt><dd class="col-sm-8" th:text="${misnaNakana.naruciteljEmail ?: '—'}"></dd>
+<dt class="col-sm-4">Svećenik</dt><dd class="col-sm-8" th:text="${misnaNakana.svecenik ?: '—'}"></dd>
+<dt class="col-sm-4">Status</dt><dd class="col-sm-8" ><span class="badge" th:classappend="${misnaNakana.status.name() == 'IZDAN' or misnaNakana.status.name() == 'SLUZENA' ? 'text-bg-success' : (misnaNakana.status.name() == 'ODBIJEN' or misnaNakana.status.name() == 'OTKAZANA' ? 'text-bg-secondary' : 'text-bg-primary')}" th:text="${misnaNakana.status.naziv}"></span></dd>
+<dt class="col-sm-4">Prilog</dt><dd class="col-sm-8" th:text="${misnaNakana.prilog != null ? #numbers.formatDecimal(misnaNakana.prilog, 1, 'POINT', 2, 'COMMA') : '—'}"></dd>
+<dt class="col-sm-4">Napomena</dt><dd class="col-sm-8" th:text="${misnaNakana.napomena ?: '—'}"></dd>
+<dt class="col-sm-4">Datum kreiranja zapisa</dt><dd class="col-sm-8" th:text="${#temporals.format(misnaNakana.datumKreiranja, 'dd.MM.yyyy.')}"></dd>
+</dl>
+<p><a th:href="@{/misne-nakane/uredi/{id}(id=${misnaNakana.id})}" class="btn btn-outline-primary btn-sm">Uredi misnu nakanu</a></p>
+<h2>Promjena statusa</h2>
+<form th:action="@{/misne-nakane/{id}/status(id=${misnaNakana.id})}" th:object="${promjenaStatusa}" method="post" class="form-card">
+<label for="status" class="form-label">Status:</label>
+<select th:field="*{status}" id="status" required class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('status')}">
+<option value="">Odaberite status</option>
+<option th:each="s : ${statusi}" th:value="${s}" th:text="${s.naziv}"></option>
+</select>
+<p th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="text-danger small my-2"></p>
+<button type="submit" class="btn btn-primary">Promijeni status</button>
+</form>
+<p><a th:href="@{/misne-nakane}" class="btn btn-outline-secondary">Povratak na misne nakane</a></p>
+</main>
+</body>
+</html>

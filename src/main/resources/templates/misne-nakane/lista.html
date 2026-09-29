@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Misne nakane</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Misne nakane</h1>
+<p><a th:href="@{/misne-nakane/novi}" class="btn btn-primary">Dodaj misnu nakanu</a></p>
+<form th:action="@{/misne-nakane}" th:object="${filter}" method="get" class="filter-form">
+<label for="pretraga" class="form-label">Nakana, naručitelj ili svećenik:</label>
+<input id="pretraga" th:field="*{pretraga}" type="search" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('pretraga')}">
+<label for="status" class="form-label">Status:</label>
+<select id="status" th:field="*{status}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('status')}">
+<option value="">Svi</option>
+<option th:each="s : ${statusi}" th:value="${s}" th:text="${s.naziv}"></option>
+</select>
+<label for="od" class="form-label">Od datuma:</label><input id="od" th:field="*{od}" type="date" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('od')}">
+<label for="doDatuma" class="form-label">Do datuma:</label><input id="doDatuma" th:field="*{doDatuma}" type="date" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('doDatuma')}">
+<ul th:if="${#fields.hasAnyErrors()}" class="text-danger small my-2"><li th:each="greska : ${#fields.allErrors()}" th:text="${greska}"></li></ul>
+<button type="submit" class="btn btn-primary">Pretraži</button>
+<a th:href="@{/misne-nakane}" class="btn btn-outline-secondary">Prikaži sve</a>
+</form>
+<p th:if="${nakane.isEmpty()}">Nema misnih nakana za prikaz.</p>
+<div class="table-responsive" tabindex="0" role="region" aria-label="Pregled evidencije"><table class="table table-striped table-hover align-middle" th:unless="${nakane.isEmpty()}"><thead><tr>
+<th scope="col">Datum</th><th scope="col">Vrijeme</th><th scope="col">Nakana</th><th scope="col">Naručitelj</th><th scope="col">Mjesto</th><th scope="col">Svećenik</th><th scope="col">Status</th><th scope="col">Radnje</th>
+</tr></thead><tbody><tr th:each="n : ${nakane}">
+<td th:text="${#temporals.format(n.datum, 'dd.MM.yyyy.')}"></td>
+<td th:text="${#temporals.format(n.vrijeme, 'HH:mm')}"></td>
+<td th:text="${n.nakana ?: '—'}"></td>
+<td th:text="${n.naruciteljIme + (n.naruciteljPrezime != null ? ' ' + n.naruciteljPrezime : '')}"></td>
+<td th:text="${n.mjesto ?: '—'}"></td>
+<td th:text="${n.svecenik ?: '—'}"></td>
+<td ><span class="badge" th:classappend="${n.status.name() == 'IZDAN' or n.status.name() == 'SLUZENA' ? 'text-bg-success' : (n.status.name() == 'ODBIJEN' or n.status.name() == 'OTKAZANA' ? 'text-bg-secondary' : 'text-bg-primary')}" th:text="${n.status.naziv}"></span></td>
+<td><a th:href="@{/misne-nakane/{id}(id=${n.id})}" class="btn btn-outline-primary btn-sm">Detalji</a>
+<a th:href="@{/misne-nakane/uredi/{id}(id=${n.id})}" class="btn btn-outline-primary btn-sm">Uredi</a></td>
+</tr></tbody></table></div>
+<p><a th:href="@{/}" class="btn btn-outline-secondary">Povratak na početnu</a></p>
+</main>
+</body>
+</html>

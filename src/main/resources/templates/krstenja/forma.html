@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Dodavanje krštenja</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Dodavanje krštenja</h1>
+<form th:action="@{/krstenja/novi}" th:object="${krstenje}" method="post" class="form-card">
+    <div th:replace="~{krstenja/polja :: polja}"></div>
+    <button type="submit" class="btn btn-primary">Spremi krštenje</button>
+</form>
+<a th:href="@{/krstenja}" class="btn btn-outline-secondary">Povratak na krštenja</a>
+</main>
+</body>
+</html>

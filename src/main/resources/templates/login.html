@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Prijava djelatnika</title></head>
+<body>
+<main id="sadrzaj" class="app-content login-content">
+<section class="card login-card">
+<h1>Prijava djelatnika župnog ureda</h1>
+<p class="text-secondary mb-4">Prijava je namijenjena djelatnicima župnog ureda.</p>
+<p th:if="${param.error}" role="alert" class="alert alert-danger">Prijava nije uspjela. Provjerite email i lozinku te je li vaš račun aktivan.</p>
+<p th:if="${param.logout}" class="alert alert-success">Uspješno ste se odjavili.</p>
+
+<form th:action="@{/login}" method="post">
+    <div class="mb-3"><label for="email" class="form-label">Email:</label>
+        <input id="email" name="email" type="email" autocomplete="username" required autofocus class="form-control">
+    </div>
+    <div class="mb-3"><label for="lozinka" class="form-label">Lozinka:</label>
+        <input id="lozinka" name="lozinka" type="password" autocomplete="current-password" required class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary w-100 mt-2">Prijavi se</button>
+</form>
+</section>
+<p class="text-center mt-4 mb-0"><a th:href="@{/}">Povratak na početnu</a></p>
+</main>
+</body>
+</html>

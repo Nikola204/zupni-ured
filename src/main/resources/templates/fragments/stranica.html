@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org" th:fragment="stranica(naslov, sadrzaj)">
+<head th:replace="~{fragments/layout :: zaglavlje(${naslov})}"></head>
+<body th:classappend="${izgled.interni ? 'app-admin' : 'app-public'}">
+<a href="#sadrzaj" class="visually-hidden-focusable skip-link">Preskoči na sadržaj</a>
+<header th:replace="~{fragments/layout :: navigacija}"></header>
+<div class="app-shell">
+    <aside th:replace="~{fragments/layout :: sidebar}"></aside>
+    <div class="app-workspace">
+        <div th:replace="~{fragments/layout :: poruke}"></div>
+        <main th:replace="${sadrzaj}"></main>
+        <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
+</div>
+</body>
+</html>

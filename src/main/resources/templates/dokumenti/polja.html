@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Podaci dokumenta</title></head>
+<body>
+<h1>Podaci dokumenta</h1>
+<div th:fragment="polja">
+<ul th:if="${#fields.hasAnyErrors()}" class="text-danger small my-2"><li th:each="greska : ${#fields.allErrors()}" th:text="${greska}"></li></ul>
+<p>Odaberite župljanina ili ručno unesite ime i prezime. Za krštenje, pričest i krizmu primatelj se preuzima iz izvornog zapisa.</p>
+<div class="mb-3"><label for="zupljaninId" class="form-label">Župljanin:</label>
+<select id="zupljaninId" th:field="*{zupljaninId}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('zupljaninId')}">
+<option value="">Ručni unos / osoba iz sakramentalnog zapisa</option>
+<option th:each="o : ${zupljani}" th:value="${o.id}" th:text="${o.ime + ' ' + o.prezime + ' — ' + (o.datumRodjenja != null ? #temporals.format(o.datumRodjenja, 'dd.MM.yyyy.') : 'datum rođenja nije unesen')}"></option>
+</select></div>
+<div class="mb-3"><label for="imePrimatelja" class="form-label">Ime primatelja:</label><input id="imePrimatelja" th:field="*{imePrimatelja}" maxlength="100" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('imePrimatelja')}"></div>
+<div class="mb-3"><label for="prezimePrimatelja" class="form-label">Prezime primatelja:</label><input id="prezimePrimatelja" th:field="*{prezimePrimatelja}" maxlength="100" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('prezimePrimatelja')}"></div>
+<div class="mb-3"><label for="vrstaDokumenta" class="form-label">Vrsta dokumenta:</label>
+<select id="vrstaDokumenta" th:field="*{vrstaDokumenta}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('vrstaDokumenta')}">
+<option value="">Odaberite vrstu dokumenta</option>
+<option th:each="o : ${vrste}" th:value="${o}" th:text="${o.naziv}"></option>
+</select></div>
+<div class="mb-3"><label for="status" class="form-label">Status:</label>
+<select id="status" th:field="*{status}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('status')}">
+<option value="">Odaberite status</option>
+<option th:each="o : ${statusi}" th:value="${o}" th:text="${o.naziv}"></option>
+</select></div>
+<p>Odaberite samo izvor koji odgovara vrsti dokumenta. Potvrda o slobodnom stanju i Ostalo nemaju izvorni zapis.</p>
+<div class="mb-3"><label for="krstenjeId" class="form-label">Krštenje:</label>
+<select id="krstenjeId" th:field="*{krstenjeId}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('krstenjeId')}">
+<option value="">Nije odabrano</option>
+<option th:each="o : ${krstenja}" th:value="${o.id}" th:text="${o.zupljanin.ime + ' ' + o.zupljanin.prezime + ' — ' + #temporals.format(o.datumKrstenja, 'dd.MM.yyyy.') + ' (ID: ' + o.id + ')'}"></option>
+</select></div>
+<div class="mb-3"><label for="prvaPricestId" class="form-label">Prva pričest:</label>
+<select id="prvaPricestId" th:field="*{prvaPricestId}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('prvaPricestId')}">
+<option value="">Nije odabrano</option>
+<option th:each="o : ${pricesti}" th:value="${o.id}" th:text="${o.zupljanin.ime + ' ' + o.zupljanin.prezime + ' — ' + #temporals.format(o.datumPricesti, 'dd.MM.yyyy.') + ' (ID: ' + o.id + ')'}"></option>
+</select></div>
+<div class="mb-3"><label for="krizmaId" class="form-label">Krizma:</label>
+<select id="krizmaId" th:field="*{krizmaId}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('krizmaId')}">
+<option value="">Nije odabrano</option>
+<option th:each="o : ${krizme}" th:value="${o.id}" th:text="${o.zupljanin.ime + ' ' + o.zupljanin.prezime + ' — ' + #temporals.format(o.datumKrizme, 'dd.MM.yyyy.') + ' (ID: ' + o.id + ')'}"></option>
+</select></div>
+<div class="mb-3"><label for="vjencanjeId" class="form-label">Vjenčanje:</label>
+<select id="vjencanjeId" th:field="*{vjencanjeId}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('vjencanjeId')}">
+<option value="">Nije odabrano</option>
+<option th:each="o : ${vjencanja}" th:value="${o.id}" th:text="${o.imeMladozenje + ' ' + o.prezimeMladozenje + ' — ' + o.imeNevjeste + ' ' + o.prezimeNevjeste + ' — ' + #temporals.format(o.datumVjencanja, 'dd.MM.yyyy.') + ' (ID: ' + o.id + ')'}"></option>
+</select></div>
+<div class="mb-3"><label for="datumZahtjeva" class="form-label">Datum zahtjeva:</label><input id="datumZahtjeva" th:field="*{datumZahtjeva}" type="date" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('datumZahtjeva')}"></div>
+<div class="mb-3"><label for="datumIzdavanja" class="form-label">Datum izdavanja:</label><input id="datumIzdavanja" th:field="*{datumIzdavanja}" type="date" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('datumIzdavanja')}"></div>
+<div class="mb-3"><label for="svrha" class="form-label">Svrha:</label><textarea id="svrha" th:field="*{svrha}" maxlength="2000" rows="4" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('svrha')}"></textarea></div>
+<div class="mb-3"><label for="napomena" class="form-label">Napomena:</label><textarea id="napomena" th:field="*{napomena}" maxlength="2000" rows="4" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('napomena')}"></textarea></div>
+<p>Za status Izdan datum izdavanja je obavezan. Djelatnik se određuje iz prijave. Podaci prvog izdavanja ostaju sačuvani; za novo izdavanje unesite novi zahtjev.</p>
+</div>
+</body>
+</html>

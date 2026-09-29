@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Uređivanje misne nakane</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Uređivanje misne nakane</h1>
+<form th:action="@{/misne-nakane/uredi/{id}(id=${nakanaId})}" th:object="${misnaNakana}" method="post" class="form-card">
+<div th:replace="~{misne-nakane/polja :: polja}"></div>
+<button type="submit" class="btn btn-primary">Spremi misnu nakanu</button>
+</form>
+<p><a th:href="@{/misne-nakane}" class="btn btn-outline-secondary">Povratak na misne nakane</a></p>
+</main>
+</body>
+</html>

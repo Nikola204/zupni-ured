@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Detalji vjenčanja</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Detalji vjenčanja</h1>
+<dl class="row card detail-card">
+<dt class="col-sm-4">Mladoženja</dt><dd class="col-sm-8" th:text="${vjencanje.imeMladozenje + ' ' + vjencanje.prezimeMladozenje}"></dd>
+<dt class="col-sm-4">Veza mladoženje</dt><dd class="col-sm-8" th:text="${vjencanje.mladozenjaZupljanin != null ? 'Povezan s postojećim župljaninom (ID: ' + vjencanje.mladozenjaZupljanin.id + ')' : 'Ručni unos — nije povezan sa župljaninom'}"></dd>
+<dt class="col-sm-4">Nevjesta</dt><dd class="col-sm-8" th:text="${vjencanje.imeNevjeste + ' ' + vjencanje.prezimeNevjeste}"></dd>
+<dt class="col-sm-4">Veza nevjeste</dt><dd class="col-sm-8" th:text="${vjencanje.nevjestaZupljanin != null ? 'Povezana s postojećom župljankom (ID: ' + vjencanje.nevjestaZupljanin.id + ')' : 'Ručni unos — nije povezana sa župljaninom'}"></dd>
+<dt class="col-sm-4">Datum vjenčanja</dt><dd class="col-sm-8" th:text="${#temporals.format(vjencanje.datumVjencanja, 'dd.MM.yyyy.')}"></dd>
+<dt class="col-sm-4">Mjesto vjenčanja</dt><dd class="col-sm-8" th:text="${vjencanje.mjestoVjencanja}"></dd>
+<dt class="col-sm-4">Svjedok mladoženje</dt><dd class="col-sm-8" th:text="${vjencanje.svjedokMladozenje}"></dd>
+<dt class="col-sm-4">Svjedok nevjeste</dt><dd class="col-sm-8" th:text="${vjencanje.svjedokNevjeste}"></dd>
+<dt class="col-sm-4">Služitelj vjenčanja</dt><dd class="col-sm-8" th:text="${vjencanje.sluziteljVjencanja}"></dd>
+<dt class="col-sm-4">Broj matice</dt><dd class="col-sm-8" th:text="${vjencanje.brojMatice}"></dd>
+<dt class="col-sm-4">Godina matice</dt><dd class="col-sm-8" th:text="${vjencanje.godinaMatice}"></dd>
+<dt class="col-sm-4">Napomena</dt><dd class="col-sm-8" th:text="${vjencanje.napomena}"></dd>
+<dt class="col-sm-4">Datum kreiranja</dt><dd class="col-sm-8" th:text="${#temporals.format(vjencanje.datumKreiranja, 'dd.MM.yyyy.')}"></dd>
+</dl>
+<a th:href="@{/vjencanja/uredi/{id}(id=${vjencanje.id})}" class="btn btn-outline-primary btn-sm">Uredi vjenčanje</a>
+<a th:href="@{/vjencanja}" class="btn btn-outline-secondary">Povratak na vjenčanja</a>
+</main>
+</body>
+</html>

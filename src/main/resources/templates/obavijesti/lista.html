@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Obavijesti</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Obavijesti</h1>
+<p th:if="${obavijesti.isEmpty()}">Trenutačno nema obavijesti.</p>
+<article class="card card-section" th:each="o : ${obavijesti}">
+<h2 th:text="${o.naslov}"></h2>
+<p th:text="${#temporals.format(o.datumObjave, 'dd.MM.yyyy.')}"></p>
+<p th:if="${o.istaknuta}">Istaknuta obavijest</p>
+<a th:href="@{/obavijesti/{id}(id=${o.id})}" class="btn btn-outline-primary btn-sm">Pročitaj više</a>
+</article>
+<p><a th:href="@{/}" class="btn btn-outline-secondary">Povratak na početnu</a></p>
+</main>
+</body>
+</html>

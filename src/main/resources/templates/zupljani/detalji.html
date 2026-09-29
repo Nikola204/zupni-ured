@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Profil župljanina</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<div th:with="z=${profil.zupljanin}">
+<h1>Župljanin</h1>
+<h2>Osobni podaci</h2>
+<dl class="row card detail-card">
+    <dt class="col-sm-4">Ime</dt><dd class="col-sm-8" th:text="${z.ime ?: '—'}"></dd>
+    <dt class="col-sm-4">Prezime</dt><dd class="col-sm-8" th:text="${z.prezime ?: '—'}"></dd>
+    <dt class="col-sm-4">Datum rođenja</dt><dd class="col-sm-8" th:text="${z.datumRodjenja != null ? #temporals.format(z.datumRodjenja, 'dd.MM.yyyy.') : '—'}"></dd>
+    <dt class="col-sm-4">Mjesto rođenja</dt><dd class="col-sm-8" th:text="${z.mjestoRodjenja ?: '—'}"></dd>
+    <dt class="col-sm-4">Adresa</dt><dd class="col-sm-8" th:text="${z.adresa ?: '—'}"></dd>
+    <dt class="col-sm-4">Telefon</dt><dd class="col-sm-8" th:text="${z.telefon ?: '—'}"></dd>
+    <dt class="col-sm-4">Email</dt><dd class="col-sm-8" th:text="${z.email ?: '—'}"></dd>
+    <dt class="col-sm-4">Napomena</dt><dd class="col-sm-8" th:text="${z.napomena ?: '—'}"></dd>
+    <dt class="col-sm-4">Status</dt><dd class="col-sm-8" ><span class="badge" th:classappend="${z.aktivan ? 'text-bg-success' : 'text-bg-secondary'}" th:text="${z.aktivan ? 'Aktivan' : 'Neaktivan'}"></span></dd>
+    <dt class="col-sm-4">Datum kreiranja zapisa</dt><dd class="col-sm-8" th:text="${z.datumKreiranja != null ? #temporals.format(z.datumKreiranja, 'dd.MM.yyyy.') : '—'}"></dd>
+</dl>
+<p><a th:href="@{/zupljani/uredi/{id}(id=${z.id})}" class="btn btn-outline-primary btn-sm">Uredi župljanina</a></p>
+<section class="card card-section">
+    <h2>Sakramenti</h2>
+    <article class="card card-section" th:each="s : ${profil.sakramenti}">
+        <h3 th:text="${s.naziv}"></h3>
+        <p th:text="${s.poruka}"></p>
+        <th:block th:if="${s.poveznica != null}">
+            <dl class="row card detail-card">
+                <dt class="col-sm-4">Datum</dt><dd class="col-sm-8" th:text="${#temporals.format(s.datum, 'dd.MM.yyyy.')}"></dd>
+                <dt class="col-sm-4">Mjesto</dt><dd class="col-sm-8" th:text="${s.mjesto}"></dd>
+                <dt class="col-sm-4">Broj/godina matice</dt><dd class="col-sm-8" th:text="${s.matica}"></dd>
+            </dl>
+            <a th:href="@{${s.poveznica}}" class="btn btn-outline-primary btn-sm">Detalji sakramenta</a>
+        </th:block>
+    </article>
+</section>
+<section class="card card-section">
+    <h2>Vjenčanja</h2>
+    <p th:if="${#lists.isEmpty(profil.vjencanja)}">Nema evidentiranih vjenčanja.</p>
+    <div class="table-responsive" tabindex="0" role="region" aria-label="Pregled evidencije"><table class="table table-striped table-hover align-middle" th:unless="${#lists.isEmpty(profil.vjencanja)}">
+        <thead><tr><th scope="col">Datum vjenčanja</th><th scope="col">Drugi supružnik</th><th scope="col">Mjesto</th><th scope="col">Broj/godina matice</th><th scope="col">Akcije</th></tr></thead>
+        <tbody><tr th:each="v : ${profil.vjencanja}">
+            <td th:text="${#temporals.format(v.datum, 'dd.MM.yyyy.')}"></td>
+            <td th:text="${v.supruznik}"></td>
+            <td th:text="${v.mjesto}"></td>
+            <td th:text="${v.matica}"></td>
+            <td><a th:href="@{/vjencanja/{id}(id=${v.id})}" class="btn btn-outline-primary btn-sm">Detalji vjenčanja</a></td>
+        </tr></tbody>
+    </table></div>
+</section>
+<section class="card card-section">
+    <h2>Dokumenti</h2>
+    <p th:if="${profil.dokumenti.isEmpty()}">Nema povezanih dokumenata.</p>
+    <div class="table-responsive" tabindex="0" role="region" aria-label="Pregled evidencije"><table class="table table-striped table-hover align-middle" th:unless="${profil.dokumenti.isEmpty()}">
+        <thead><tr><th scope="col">Vrsta dokumenta</th><th scope="col">Status</th><th scope="col">Datum zahtjeva</th><th scope="col">Datum izdavanja</th><th scope="col">Radnje</th></tr></thead>
+        <tbody><tr th:each="d : ${profil.dokumenti}">
+            <td th:text="${d.vrstaDokumenta.naziv}"></td>
+            <td ><span class="badge" th:classappend="${d.status.name() == 'IZDAN' or d.status.name() == 'SLUZENA' ? 'text-bg-success' : (d.status.name() == 'ODBIJEN' or d.status.name() == 'OTKAZANA' ? 'text-bg-secondary' : 'text-bg-primary')}" th:text="${d.status.naziv}"></span></td>
+            <td th:text="${#temporals.format(d.datumZahtjeva, 'dd.MM.yyyy.')}"></td>
+            <td th:text="${d.datumIzdavanja != null ? #temporals.format(d.datumIzdavanja, 'dd.MM.yyyy.') : '—'}"></td>
+            <td><a th:href="@{/dokumenti/{id}(id=${d.id})}" class="btn btn-outline-primary btn-sm">Detalji dokumenta</a></td>
+        </tr></tbody>
+    </table></div>
+</section>
+<p><a th:href="@{/zupljani}" class="btn btn-outline-secondary">Povratak na popis župljana</a></p>
+</div>
+</main>
+</body>
+</html>

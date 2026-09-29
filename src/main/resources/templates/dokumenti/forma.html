@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Novi zahtjev za dokument</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Novi zahtjev za dokument</h1>
+<form th:action="@{/dokumenti/novi}" th:object="${dokument}" method="post" class="form-card">
+<div th:replace="~{dokumenti/polja :: polja}"></div>
+<button type="submit" class="btn btn-primary">Spremi dokument</button>
+</form>
+<p><a th:href="@{/dokumenti}" class="btn btn-outline-secondary">Povratak na dokumente</a></p>
+</main>
+</body>
+</html>

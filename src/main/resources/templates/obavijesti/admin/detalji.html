@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Detalji obavijesti</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Detalji obavijesti</h1>
+<h2 th:text="${obavijest.naslov}"></h2>
+<p>Datum objave: <span th:text="${#temporals.format(obavijest.datumObjave, 'dd.MM.yyyy.')}"></span></p>
+<p th:if="${obavijest.istaknuta}">Istaknuta obavijest</p>
+<div style="white-space: pre-wrap" th:text="${obavijest.sadrzaj}"></div>
+<dl class="row card detail-card">
+<dt class="col-sm-4">Datum isteka</dt><dd class="col-sm-8" th:text="${obavijest.datumIsteka != null ? #temporals.format(obavijest.datumIsteka, 'dd.MM.yyyy.') : '—'}"></dd>
+<dt class="col-sm-4">Aktivna</dt><dd class="col-sm-8" ><span class="badge" th:classappend="${obavijest.aktivna ? 'text-bg-success' : 'text-bg-secondary'}" th:text="${obavijest.aktivna ? 'Da' : 'Ne'}"></span></dd>
+<dt class="col-sm-4">Autor</dt><dd class="col-sm-8" th:text="${obavijest.autor.ime + ' ' + obavijest.autor.prezime}"></dd>
+<dt class="col-sm-4">Datum kreiranja</dt><dd class="col-sm-8" th:text="${#temporals.format(obavijest.datumKreiranja, 'dd.MM.yyyy.')}"></dd>
+<dt class="col-sm-4">Datum izmjene</dt><dd class="col-sm-8" th:text="${#temporals.format(obavijest.datumIzmjene, 'dd.MM.yyyy.')}"></dd>
+</dl>
+<p><a th:href="@{/admin/obavijesti/uredi/{id}(id=${obavijest.id})}" class="btn btn-outline-primary btn-sm">Uredi obavijest</a></p>
+<form th:if="${obavijest.aktivna}" th:action="@{/admin/obavijesti/deaktiviraj/{id}(id=${obavijest.id})}" method="post" class="my-3">
+<button type="submit" class="btn btn-outline-danger">Deaktiviraj</button></form>
+<form th:unless="${obavijest.aktivna}" th:action="@{/admin/obavijesti/aktiviraj/{id}(id=${obavijest.id})}" method="post" class="my-3">
+<button type="submit" class="btn btn-primary">Aktiviraj</button></form>
+<p><a th:href="@{/admin/obavijesti}" class="btn btn-outline-secondary">Povratak na popis obavijesti</a></p>
+</main>
+</body>
+</html>

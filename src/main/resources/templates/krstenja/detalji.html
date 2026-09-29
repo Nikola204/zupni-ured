@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Detalji krštenja</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Detalji krštenja</h1>
+<dl class="row card detail-card">
+    <dt class="col-sm-4">Župljanin</dt>
+    <dd class="col-sm-8" th:text="${krstenje.zupljanin.ime + ' ' + krstenje.zupljanin.prezime}"></dd>
+    <dt class="col-sm-4">Datum rođenja</dt>
+    <dd class="col-sm-8" th:text="${krstenje.zupljanin.datumRodjenja != null ? #temporals.format(krstenje.zupljanin.datumRodjenja, 'dd.MM.yyyy.') : '—'}"></dd>
+    <dt class="col-sm-4">Datum krštenja</dt>
+    <dd class="col-sm-8" th:text="${#temporals.format(krstenje.datumKrstenja, 'dd.MM.yyyy.')}"></dd>
+    <dt class="col-sm-4">Mjesto krštenja</dt>
+    <dd class="col-sm-8" th:text="${krstenje.mjestoKrstenja}"></dd>
+    <dt class="col-sm-4">Ime oca</dt>
+    <dd class="col-sm-8" th:text="${krstenje.imeOca}"></dd>
+    <dt class="col-sm-4">Ime majke</dt>
+    <dd class="col-sm-8" th:text="${krstenje.imeMajke}"></dd>
+    <dt class="col-sm-4">Ime kuma</dt>
+    <dd class="col-sm-8" th:text="${krstenje.imeKuma}"></dd>
+    <dt class="col-sm-4">Ime kume</dt>
+    <dd class="col-sm-8" th:text="${krstenje.imeKume}"></dd>
+    <dt class="col-sm-4">Krstitelj</dt>
+    <dd class="col-sm-8" th:text="${krstenje.krstitelj}"></dd>
+    <dt class="col-sm-4">Broj matice</dt>
+    <dd class="col-sm-8" th:text="${krstenje.brojMatice}"></dd>
+    <dt class="col-sm-4">Godina matice</dt>
+    <dd class="col-sm-8" th:text="${krstenje.godinaMatice}"></dd>
+    <dt class="col-sm-4">Napomena</dt>
+    <dd class="col-sm-8" th:text="${krstenje.napomena}"></dd>
+    <dt class="col-sm-4">Datum kreiranja</dt>
+    <dd class="col-sm-8" th:text="${#temporals.format(krstenje.datumKreiranja, 'dd.MM.yyyy.')}"></dd>
+</dl>
+<a th:href="@{/krstenja/uredi/{id}(id=${krstenje.id})}" class="btn btn-outline-primary btn-sm">Uredi krštenje</a>
+<a th:href="@{/krstenja}" class="btn btn-outline-secondary">Povratak na krštenja</a>
+</main>
+</body>
+</html>

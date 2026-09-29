@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Podaci misne nakane</title></head>
+<body>
+<h1>Podaci misne nakane</h1>
+<div th:fragment="polja">
+<p>Obavezna polja: nakana, datum, vrijeme, mjesto, ime naručitelja i status.</p>
+<div class="mb-3"><label for="nakana" class="form-label">Nakana:</label>
+<textarea id="nakana" th:field="*{nakana}" maxlength="2000" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('nakana')}"></textarea>
+<p th:if="${#fields.hasErrors('nakana')}" th:errors="*{nakana}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="datum" class="form-label">Datum:</label>
+<input id="datum" th:field="*{datum}" type="date" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('datum')}">
+<p th:if="${#fields.hasErrors('datum')}" th:errors="*{datum}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="vrijeme" class="form-label">Vrijeme:</label>
+<input id="vrijeme" th:field="*{vrijeme}" type="time" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('vrijeme')}">
+<p th:if="${#fields.hasErrors('vrijeme')}" th:errors="*{vrijeme}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="mjesto" class="form-label">Mjesto:</label>
+<input id="mjesto" th:field="*{mjesto}" type="text" maxlength="150" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('mjesto')}">
+<p th:if="${#fields.hasErrors('mjesto')}" th:errors="*{mjesto}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="naruciteljIme" class="form-label">Ime naručitelja:</label>
+<input id="naruciteljIme" th:field="*{naruciteljIme}" type="text" maxlength="100" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('naruciteljIme')}">
+<p th:if="${#fields.hasErrors('naruciteljIme')}" th:errors="*{naruciteljIme}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="naruciteljPrezime" class="form-label">Prezime naručitelja:</label>
+<input id="naruciteljPrezime" th:field="*{naruciteljPrezime}" type="text" maxlength="100" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('naruciteljPrezime')}">
+<p th:if="${#fields.hasErrors('naruciteljPrezime')}" th:errors="*{naruciteljPrezime}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="naruciteljTelefon" class="form-label">Telefon naručitelja:</label>
+<input id="naruciteljTelefon" th:field="*{naruciteljTelefon}" type="tel" maxlength="50" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('naruciteljTelefon')}">
+<p th:if="${#fields.hasErrors('naruciteljTelefon')}" th:errors="*{naruciteljTelefon}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="naruciteljEmail" class="form-label">Email naručitelja:</label>
+<input id="naruciteljEmail" th:field="*{naruciteljEmail}" type="email" maxlength="254" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('naruciteljEmail')}">
+<p th:if="${#fields.hasErrors('naruciteljEmail')}" th:errors="*{naruciteljEmail}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="svecenik" class="form-label">Svećenik:</label>
+<input id="svecenik" th:field="*{svecenik}" type="text" maxlength="150" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('svecenik')}">
+<p th:if="${#fields.hasErrors('svecenik')}" th:errors="*{svecenik}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="status" class="form-label">Status:</label>
+<select th:field="*{status}" id="status" required class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('status')}">
+<option value="">Odaberite status</option>
+<option th:each="s : ${statusi}" th:value="${s}" th:text="${s.naziv}"></option>
+</select>
+<p th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="prilog" class="form-label">Prilog:</label>
+<input id="prilog" th:field="*{prilog}" type="number" min="0" step="0.01" max="999999999999.99" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('prilog')}">
+<p th:if="${#fields.hasErrors('prilog')}" th:errors="*{prilog}" class="text-danger small my-2"></p></div>
+<div class="mb-3"><label for="napomena" class="form-label">Napomena:</label>
+<textarea id="napomena" th:field="*{napomena}" maxlength="2000" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('napomena')}"></textarea>
+<p th:if="${#fields.hasErrors('napomena')}" th:errors="*{napomena}" class="text-danger small my-2"></p></div>
+<p>Prilog unesite s najviše dvije decimale.</p></div>
+</body>
+</html>

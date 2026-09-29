@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Prva pričest</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Prva pričest</h1>
+<a th:href="@{/prva-pricest/novi}" class="btn btn-primary">Dodaj prvu pričest</a>
+<form th:action="@{/prva-pricest}" method="get" class="filter-form">
+    <label for="pretraga" class="form-label">Ime ili prezime župljanina, broj ili godina matice:</label>
+    <input id="pretraga" name="pretraga" type="search" th:value="${pretraga}" class="form-control">
+    <button type="submit" class="btn btn-primary">Pretraži</button>
+    <a th:href="@{/prva-pricest}" class="btn btn-outline-secondary">Prikaži sve</a>
+</form>
+<p th:if="${pricesti.isEmpty()}">Nema prve pričesti za prikaz.</p>
+<div class="table-responsive" tabindex="0" role="region" aria-label="Pregled evidencije"><table class="table table-striped table-hover align-middle" th:unless="${pricesti.isEmpty()}">
+    <thead>
+    <tr><th scope="col">Župljanin</th><th scope="col">Datum rođenja</th><th scope="col">Datum pričesti</th>
+        <th scope="col">Mjesto pričesti</th><th scope="col">Broj matice</th><th scope="col">Godina matice</th><th scope="col">Radnje</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="k : ${pricesti}">
+        <td th:text="${k.zupljanin.ime + ' ' + k.zupljanin.prezime}"></td>
+        <td th:text="${k.zupljanin.datumRodjenja != null ? #temporals.format(k.zupljanin.datumRodjenja, 'dd.MM.yyyy.') : '—'}"></td>
+        <td th:text="${#temporals.format(k.datumPricesti, 'dd.MM.yyyy.')}"></td>
+        <td th:text="${k.mjestoPricesti}"></td>
+        <td th:text="${k.brojMatice}"></td>
+        <td th:text="${k.godinaMatice}"></td>
+        <td>
+            <a th:href="@{/prva-pricest/{id}(id=${k.id})}" class="btn btn-outline-primary btn-sm">Detalji</a>
+            <a th:href="@{/prva-pricest/uredi/{id}(id=${k.id})}" class="btn btn-outline-primary btn-sm">Uredi</a>
+        </td>
+    </tr>
+    </tbody>
+</table></div>
+<a th:href="@{/}" class="btn btn-outline-secondary">Povratak na početnu</a>
+</main>
+</body>
+</html>

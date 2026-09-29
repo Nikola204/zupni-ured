@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Pristup nije dopušten</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Pristup nije dopušten</h1>
+<p>Nemate ovlasti za ovu radnju ili je obrazac istekao. Vratite se na početnu stranicu i pokušajte ponovno.</p>
+<a th:href="@{/}" class="btn btn-outline-secondary">Povratak na početnu</a>
+</main>
+</body>
+</html>

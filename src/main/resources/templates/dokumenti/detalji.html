@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Detalji dokumenta</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Detalji dokumenta</h1>
+<p th:if="${dokument.status.name() == 'IZDAN' and (dokument.vrstaDokumenta.name() == 'KRSNI_LIST' or dokument.vrstaDokumenta.name() == 'POTVRDA_O_VJENCANJU')}">
+    <a class="btn btn-primary" th:href="@{/dokumenti/{id}/pdf(id=${dokument.id})}">Generiraj PDF</a>
+</p>
+<dl class="row card detail-card">
+<dt class="col-sm-4">Primatelj</dt><dd class="col-sm-8" th:text="${dokument.imePrimatelja + ' ' + dokument.prezimePrimatelja}"></dd>
+<dt class="col-sm-4">Veza sa župljaninom</dt>
+<dd class="col-sm-8"><a th:if="${dokument.zupljanin != null}" th:href="@{/zupljani/{id}(id=${dokument.zupljanin.id})}" class="link-primary">Povezan s postojećim župljaninom</a>
+<span th:if="${dokument.zupljanin == null}">Primatelj nije povezan sa župljaninom.</span></dd>
+<dt class="col-sm-4">Vrsta</dt><dd class="col-sm-8" th:text="${dokument.vrstaDokumenta.naziv}"></dd>
+<dt class="col-sm-4">Status</dt><dd class="col-sm-8" ><span class="badge" th:classappend="${dokument.status.name() == 'IZDAN' or dokument.status.name() == 'SLUZENA' ? 'text-bg-success' : (dokument.status.name() == 'ODBIJEN' or dokument.status.name() == 'OTKAZANA' ? 'text-bg-secondary' : 'text-bg-primary')}" th:text="${dokument.status.naziv}"></span></dd>
+<dt class="col-sm-4">Datum zahtjeva</dt><dd class="col-sm-8" th:text="${dokument.datumZahtjeva != null ? #temporals.format(dokument.datumZahtjeva, 'dd.MM.yyyy.') : '—'}"></dd>
+<dt class="col-sm-4">Datum izdavanja</dt><dd class="col-sm-8" th:text="${dokument.datumIzdavanja != null ? #temporals.format(dokument.datumIzdavanja, 'dd.MM.yyyy.') : '—'}"></dd>
+<dt class="col-sm-4">Datum kreiranja</dt><dd class="col-sm-8" th:text="${dokument.datumKreiranja != null ? #temporals.format(dokument.datumKreiranja, 'dd.MM.yyyy.') : '—'}"></dd>
+<dt class="col-sm-4">Datum izmjene</dt><dd class="col-sm-8" th:text="${dokument.datumIzmjene != null ? #temporals.format(dokument.datumIzmjene, 'dd.MM.yyyy.') : '—'}"></dd>
+<dt class="col-sm-4">Svrha</dt><dd class="col-sm-8" th:text="${dokument.svrha ?: '—'}"></dd>
+<dt class="col-sm-4">Napomena</dt><dd class="col-sm-8" th:text="${dokument.napomena ?: '—'}"></dd>
+<dt class="col-sm-4">Izdao djelatnik</dt><dd class="col-sm-8" th:text="${dokument.izdaoKorisnik != null ? dokument.izdaoKorisnik.ime + ' ' + dokument.izdaoKorisnik.prezime : 'Nije evidentirano izdavanje'}"></dd>
+</dl><h2>Izvorni zapis</h2>
+<p th:if="${dokument.krstenje != null}"><a th:href="@{/krstenja/{id}(id=${dokument.krstenje.id})}" class="link-primary">Krštenje — detalji izvornog zapisa</a></p>
+<p th:if="${dokument.prvaPricest != null}"><a th:href="@{/prva-pricest/{id}(id=${dokument.prvaPricest.id})}" class="link-primary">Prva pričest — detalji izvornog zapisa</a></p>
+<p th:if="${dokument.krizma != null}"><a th:href="@{/krizma/{id}(id=${dokument.krizma.id})}" class="link-primary">Krizma — detalji izvornog zapisa</a></p>
+<p th:if="${dokument.vjencanje != null}"><a th:href="@{/vjencanja/{id}(id=${dokument.vjencanje.id})}" class="link-primary">Vjenčanje — detalji izvornog zapisa</a></p>
+<p th:if="${dokument.krstenje == null and dokument.prvaPricest == null and dokument.krizma == null and dokument.vjencanje == null}">Nema izvornog zapisa.</p>
+<p><a th:href="@{/dokumenti/uredi/{id}(id=${dokument.id})}" class="btn btn-outline-primary btn-sm">Uredi dokument</a></p>
+<h2>Promjena statusa / izdavanje</h2>
+<p>Za izdavanje odaberite Izdan i unesite datum. Djelatnik se određuje iz prijave. Prvo izdavanje ostaje sačuvano i pri kasnijoj promjeni statusa.</p>
+<form th:action="@{/dokumenti/{id}/status(id=${dokument.id})}" th:object="${dokumentStatus}" method="post" class="form-card">
+<ul th:if="${#fields.hasAnyErrors()}" class="text-danger small my-2"><li th:each="greska : ${#fields.allErrors()}" th:text="${greska}"></li></ul>
+<div class="mb-3"><label for="status" class="form-label">Status:</label>
+<select id="status" th:field="*{status}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('status')}">
+<option value="">Odaberite status</option>
+<option th:each="o : ${statusi}" th:value="${o}" th:text="${o.naziv}"></option>
+</select></div>
+
+<label for="datumIzdavanja" class="form-label">Datum izdavanja:</label><input id="datumIzdavanja" th:field="*{datumIzdavanja}" type="date" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('datumIzdavanja')}">
+<button type="submit" class="btn btn-primary">Spremi status / izdaj dokument</button>
+</form>
+<p><a th:href="@{/dokumenti}" class="btn btn-outline-secondary">Povratak na dokumente</a></p>
+</main>
+</body>
+</html>

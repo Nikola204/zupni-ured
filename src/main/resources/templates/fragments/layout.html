@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="zaglavlje(naslov)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:replace="${naslov}">Župni ured</title>
+    <link rel="stylesheet" th:href="@{/css/vendor/bootstrap-5.3.8.min.css}">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<header th:fragment="navigacija" class="app-header">
+    <a class="app-brand" th:href="@{/}"><span class="brand-mark" aria-hidden="true">ŽU</span><span>Župni ured<small>Evidencije i život župe</small></span></a>
+    <div class="d-flex align-items-center flex-wrap gap-3">
+        <nav th:unless="${izgled.interni}" class="d-flex gap-3" aria-label="Javna navigacija">
+            <a th:href="@{/}">Početna</a>
+            <a th:href="@{/obavijesti}">Obavijesti</a>
+            <a th:unless="${izgled.prijavljen}" th:href="@{/login}">Prijava djelatnika</a>
+            <a th:if="${izgled.prijavljen}" th:href="@{/}">Moj ured</a>
+        </nav>
+        <div th:if="${izgled.prijavljen}" class="user-summary">
+            <strong th:text="${izgled.ime}"></strong><small th:text="${izgled.uloga}"></small>
+        </div>
+        <form th:if="${izgled.prijavljen}" th:action="@{/logout}" method="post" class="m-0">
+            <button class="btn btn-outline-secondary btn-sm" type="submit">Odjavi se</button>
+        </form>
+    </div>
+</header>
+
+<aside th:fragment="sidebar" th:if="${izgled.interni}" class="app-sidebar">
+    <p class="nav-caption">ŽUPNI URED</p>
+    <nav class="nav nav-pills app-nav" aria-label="Administracijska navigacija">
+        <a class="nav-link" th:href="@{/}" th:classappend="${izgled.putanja == '/' ? 'active' : ''}" th:attr="aria-current=${izgled.putanja == '/' ? 'page' : null}">Početna</a>
+        <a class="nav-link" th:href="@{/zupljani}" th:classappend="${(izgled.putanja == '/zupljani' or #strings.startsWith(izgled.putanja, '/zupljani/')) ? 'active' : ''}" th:attr="aria-current=${(izgled.putanja == '/zupljani' or #strings.startsWith(izgled.putanja, '/zupljani/')) ? 'page' : null}">Župljani</a>
+        <a class="nav-link" th:href="@{/krstenja}" th:classappend="${(izgled.putanja == '/krstenja' or #strings.startsWith(izgled.putanja, '/krstenja/')) ? 'active' : ''}" th:attr="aria-current=${(izgled.putanja == '/krstenja' or #strings.startsWith(izgled.putanja, '/krstenja/')) ? 'page' : null}">Krštenja</a>
+        <a class="nav-link" th:href="@{/prva-pricest}" th:classappend="${(izgled.putanja == '/prva-pricest' or #strings.startsWith(izgled.putanja, '/prva-pricest/')) ? 'active' : ''}" th:attr="aria-current=${(izgled.putanja == '/prva-pricest' or #strings.startsWith(izgled.putanja, '/prva-pricest/')) ? 'page' : null}">Prve pričesti</a>
+        <a class="nav-link" th:href="@{/krizma}" th:classappend="${(izgled.putanja == '/krizma' or #strings.startsWith(izgled.putanja, '/krizma/')) ? 'active' : ''}" th:attr="aria-current=${(izgled.putanja == '/krizma' or #strings.startsWith(izgled.putanja, '/krizma/')) ? 'page' : null}">Krizme</a>
+        <a class="nav-link" th:href="@{/vjencanja}" th:classappend="${(izgled.putanja == '/vjencanja' or #strings.startsWith(izgled.putanja, '/vjencanja/')) ? 'active' : ''}" th:attr="aria-current=${(izgled.putanja == '/vjencanja' or #strings.startsWith(izgled.putanja, '/vjencanja/')) ? 'page' : null}">Vjenčanja</a>
+        <a class="nav-link" th:href="@{/misne-nakane}" th:classappend="${(izgled.putanja == '/misne-nakane' or #strings.startsWith(izgled.putanja, '/misne-nakane/')) ? 'active' : ''}" th:attr="aria-current=${(izgled.putanja == '/misne-nakane' or #strings.startsWith(izgled.putanja, '/misne-nakane/')) ? 'page' : null}">Misne nakane</a>
+        <a class="nav-link" th:href="@{/dogadjaji}" th:classappend="${(izgled.putanja == '/dogadjaji' or #strings.startsWith(izgled.putanja, '/dogadjaji/')) ? 'active' : ''}" th:attr="aria-current=${(izgled.putanja == '/dogadjaji' or #strings.startsWith(izgled.putanja, '/dogadjaji/')) ? 'page' : null}">Događaji</a>
+        <a class="nav-link" th:href="@{/dokumenti}" th:classappend="${(izgled.putanja == '/dokumenti' or #strings.startsWith(izgled.putanja, '/dokumenti/')) ? 'active' : ''}" th:attr="aria-current=${(izgled.putanja == '/dokumenti' or #strings.startsWith(izgled.putanja, '/dokumenti/')) ? 'page' : null}">Dokumenti</a>
+        <a class="nav-link" th:href="@{/admin/obavijesti}" title="Upravljanje obavijestima" th:classappend="${(izgled.putanja == '/admin/obavijesti' or #strings.startsWith(izgled.putanja, '/admin/obavijesti/')) ? 'active' : ''}" th:attr="aria-current=${(izgled.putanja == '/admin/obavijesti' or #strings.startsWith(izgled.putanja, '/admin/obavijesti/')) ? 'page' : null}">Obavijesti</a>
+        <a class="nav-link" th:href="@{/korisnici}" th:if="${izgled.administrator}" title="Upravljanje korisnicima" th:classappend="${(izgled.putanja == '/korisnici' or #strings.startsWith(izgled.putanja, '/korisnici/')) ? 'active' : ''}" th:attr="aria-current=${(izgled.putanja == '/korisnici' or #strings.startsWith(izgled.putanja, '/korisnici/')) ? 'page' : null}">Korisnici</a>
+    </nav>
+    <p class="sidebar-note">Sve evidencije na jednom mjestu.</p>
+</aside>
+
+<div th:fragment="poruke" aria-live="polite">
+    <div th:if="${porukaUspjeha != null}" class="alert alert-success" role="status" th:text="${porukaUspjeha}"></div>
+    <div th:if="${porukaGreske != null}" class="alert alert-danger" role="alert" th:text="${porukaGreske}"></div>
+</div>
+
+<footer th:fragment="footer" class="app-footer">
+    <span>Župni ured</span><span>Evidencije župnog ureda</span>
+</footer>
+</html>

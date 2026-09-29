@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/stranica :: stranica(~{::title}, ~{::main})}">
+<head><title>Dodavanje prve pričesti</title></head>
+<body>
+<main id="sadrzaj" class="app-content">
+<h1>Dodavanje prve pričesti</h1>
+<form th:action="@{/prva-pricest/novi}" th:object="${prvaPricest}" method="post" class="form-card">
+    <div th:replace="~{prva-pricest/polja :: polja}"></div>
+    <button type="submit" class="btn btn-primary">Spremi prvu pričest</button>
+</form>
+<a th:href="@{/prva-pricest}" class="btn btn-outline-secondary">Povratak na prve pričesti</a>
+</main>
+</body>
+</html>

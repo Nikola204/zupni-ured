@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Podaci vjenčanja</title></head>
+<body>
+<h1>Podaci vjenčanja</h1>
+<div th:fragment="polja">
+<p>Za svakog mladenca odaberite župljanina ili opciju „Ručni unos” i upišite ime i prezime. Unos u evidenciju župljana nije potreban.</p>
+<p>Pri novom povezivanju imena se preuzimaju iz evidencije župljana. Ako zadržite istog župljanina, čuvaju se povijesna imena ovog vjenčanja. Za ručnu izmjenu imena odaberite „Ručni unos”.</p>
+<fieldset>
+    <legend>Mladoženja</legend>
+    <label for="mladozenjaZupljaninId" class="form-label">Postojeći župljanin ili ručni unos:</label>
+    <select id="mladozenjaZupljaninId" th:field="*{mladozenjaZupljaninId}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('mladozenjaZupljaninId')}">
+        <option value="">Ručni unos — osoba nije povezana sa župljaninom</option>
+        <option th:each="z : ${zupljani}" th:value="${z.id}" th:text="${z.ime + ' ' + z.prezime + ' — ' + (z.datumRodjenja != null ? #temporals.format(z.datumRodjenja, 'dd.MM.yyyy.') : 'datum rođenja nije unesen')}"></option>
+    </select>
+    <p th:if="${#fields.hasErrors('mladozenjaZupljaninId')}" th:errors="*{mladozenjaZupljaninId}" class="text-danger small my-2"></p>
+    <div class="mb-3"><label for="imeMladozenje" class="form-label">Ime mladoženje:</label>
+        <input id="imeMladozenje" th:field="*{imeMladozenje}" type="text" maxlength="100" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('imeMladozenje')}">
+        <p th:if="${#fields.hasErrors('imeMladozenje')}" th:errors="*{imeMladozenje}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="prezimeMladozenje" class="form-label">Prezime mladoženje:</label>
+        <input id="prezimeMladozenje" th:field="*{prezimeMladozenje}" type="text" maxlength="100" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('prezimeMladozenje')}">
+        <p th:if="${#fields.hasErrors('prezimeMladozenje')}" th:errors="*{prezimeMladozenje}" class="text-danger small my-2"></p>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Nevjesta</legend>
+    <label for="nevjestaZupljaninId" class="form-label">Postojeći župljanin ili ručni unos:</label>
+    <select id="nevjestaZupljaninId" th:field="*{nevjestaZupljaninId}" class="form-select" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('nevjestaZupljaninId')}">
+        <option value="">Ručni unos — osoba nije povezana sa župljaninom</option>
+        <option th:each="z : ${zupljani}" th:value="${z.id}" th:text="${z.ime + ' ' + z.prezime + ' — ' + (z.datumRodjenja != null ? #temporals.format(z.datumRodjenja, 'dd.MM.yyyy.') : 'datum rođenja nije unesen')}"></option>
+    </select>
+    <p th:if="${#fields.hasErrors('nevjestaZupljaninId')}" th:errors="*{nevjestaZupljaninId}" class="text-danger small my-2"></p>
+    <div class="mb-3"><label for="imeNevjeste" class="form-label">Ime nevjeste:</label>
+        <input id="imeNevjeste" th:field="*{imeNevjeste}" type="text" maxlength="100" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('imeNevjeste')}">
+        <p th:if="${#fields.hasErrors('imeNevjeste')}" th:errors="*{imeNevjeste}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="prezimeNevjeste" class="form-label">Prezime nevjeste:</label>
+        <input id="prezimeNevjeste" th:field="*{prezimeNevjeste}" type="text" maxlength="100" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('prezimeNevjeste')}">
+        <p th:if="${#fields.hasErrors('prezimeNevjeste')}" th:errors="*{prezimeNevjeste}" class="text-danger small my-2"></p>
+    </div>
+</fieldset>
+<p>Datum i mjesto vjenčanja su obavezni.</p>
+    <div class="mb-3"><label for="datumVjencanja" class="form-label">Datum vjenčanja:</label>
+        <input id="datumVjencanja" th:field="*{datumVjencanja}" type="date" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('datumVjencanja')}">
+        <p th:if="${#fields.hasErrors('datumVjencanja')}" th:errors="*{datumVjencanja}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="mjestoVjencanja" class="form-label">Mjesto vjenčanja:</label>
+        <input id="mjestoVjencanja" th:field="*{mjestoVjencanja}" type="text" maxlength="150" required class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('mjestoVjencanja')}">
+        <p th:if="${#fields.hasErrors('mjestoVjencanja')}" th:errors="*{mjestoVjencanja}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="svjedokMladozenje" class="form-label">Svjedok mladoženje:</label>
+        <input id="svjedokMladozenje" th:field="*{svjedokMladozenje}" type="text" maxlength="150" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('svjedokMladozenje')}">
+        <p th:if="${#fields.hasErrors('svjedokMladozenje')}" th:errors="*{svjedokMladozenje}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="svjedokNevjeste" class="form-label">Svjedok nevjeste:</label>
+        <input id="svjedokNevjeste" th:field="*{svjedokNevjeste}" type="text" maxlength="150" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('svjedokNevjeste')}">
+        <p th:if="${#fields.hasErrors('svjedokNevjeste')}" th:errors="*{svjedokNevjeste}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="sluziteljVjencanja" class="form-label">Služitelj vjenčanja:</label>
+        <input id="sluziteljVjencanja" th:field="*{sluziteljVjencanja}" type="text" maxlength="150" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('sluziteljVjencanja')}">
+        <p th:if="${#fields.hasErrors('sluziteljVjencanja')}" th:errors="*{sluziteljVjencanja}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="brojMatice" class="form-label">Broj matice:</label>
+        <input id="brojMatice" th:field="*{brojMatice}" type="text" maxlength="50" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('brojMatice')}">
+        <p th:if="${#fields.hasErrors('brojMatice')}" th:errors="*{brojMatice}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="godinaMatice" class="form-label">Godina matice:</label>
+        <input id="godinaMatice" th:field="*{godinaMatice}" type="number" min="1" max="9999" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('godinaMatice')}">
+        <p th:if="${#fields.hasErrors('godinaMatice')}" th:errors="*{godinaMatice}" class="text-danger small my-2"></p>
+    </div>
+    <div class="mb-3"><label for="napomena" class="form-label">Napomena:</label>
+        <textarea id="napomena" th:field="*{napomena}" maxlength="2000" rows="4" class="form-control" th:errorclass="is-invalid" th:attr="aria-invalid=${#fields.hasErrors('napomena')}"></textarea>
+        <p th:if="${#fields.hasErrors('napomena')}" th:errors="*{napomena}" class="text-danger small my-2"></p>
+    </div>
+</div>
+</body>
+</html>
