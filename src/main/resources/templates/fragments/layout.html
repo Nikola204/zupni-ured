@@ -3,6 +3,7 @@
 <head th:fragment="zaglavlje(naslov)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script th:src="@{/js/tema.js}"></script>
     <title th:replace="${naslov}">Župni ured</title>
     <link rel="stylesheet" th:href="@{/css/vendor/bootstrap-5.3.8.min.css}">
     <link rel="stylesheet" th:href="@{/css/app.css}">
@@ -11,6 +12,7 @@
 <header th:fragment="navigacija" class="app-header">
     <a class="app-brand" th:href="@{/}"><span class="brand-mark" aria-hidden="true">ŽU</span><span>Župni ured<small>Evidencije i život župe</small></span></a>
     <div class="d-flex align-items-center flex-wrap gap-3">
+        <button id="promjena-teme" class="btn btn-outline-secondary btn-sm" type="button" aria-pressed="false" hidden>Tamni način</button>
         <nav th:unless="${izgled.interni}" class="d-flex gap-3" aria-label="Javna navigacija">
             <a th:href="@{/}">Početna</a>
             <a th:href="@{/obavijesti}">Obavijesti</a>

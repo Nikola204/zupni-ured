@@ -4,20 +4,39 @@
 <head><title>Župni ured</title></head>
 <body>
 <main id="sadrzaj" class="app-content">
-<div class="hero">
+<div class="hero home-hero">
+    <div class="hero-copy">
     <p class="small text-uppercase fw-semibold mb-2">Dobro došli</p>
-    <h1 class="mb-2">Župni ured</h1>
+    <h1 class="mb-2" th:text="${izgled.prijavljen ? 'Vaš župni ured' : 'Zajedno u životu župe Gradnići'}">Župni ured</h1>
     <p th:if="${izgled.prijavljen}" class="mb-0">Pregled evidencija i svakodnevnih poslova župnog ureda.</p>
     <p th:unless="${izgled.prijavljen}" class="mb-0">Dobro došli na web stranicu Župnog ureda. Pratite aktualne obavijesti i život naše župe.</p>
+    <a th:unless="${izgled.prijavljen}" href="#najnovije-obavijesti" class="btn btn-primary mt-4">Istražite obavijesti <span aria-hidden="true">↓</span></a>
+    <a th:unless="${izgled.prijavljen}" href="#raspored-misa" class="btn btn-outline-primary mt-4">Raspored misa</a>
+    <span th:if="${izgled.prijavljen}" class="hero-label">Evidencije · Sakramenti · Život župe</span>
+    </div>
+    <div th:unless="${izgled.prijavljen}" class="parish-motif" aria-hidden="true"><span class="motif-cross"></span><span class="motif-caption">Vjera. Zajedništvo. Život.</span></div>
 </div>
+<section th:unless="${izgled.prijavljen}" id="raspored-misa" class="card card-section mass-schedule" aria-labelledby="misa-naslov">
+    <div class="mass-intro">
+        <p class="section-kicker">Susret u molitvi</p>
+        <h2 id="misa-naslov">Raspored svetih misa</h2>
+        <p class="text-secondary mb-0">Župa Gradnići</p>
+    </div>
+    <div class="mass-times">
+        <div class="mass-time"><span>Nedjelja</span><strong>11:00 h</strong><small>Gradnići</small></div>
+        <div class="mass-time"><span>Ponedjeljak, utorak, petak i subota</span><strong>07:00 h</strong><small>Gradnići</small></div>
+    </div>
+    <p class="mass-note">Za blagdane i moguće promjene termina pratite župne obavijesti.</p>
+</section>
 <section th:if="${izgled.prijavljen}" aria-labelledby="statistike-naslov" class="mb-4">
     <h2 id="statistike-naslov">Pregled evidencija</h2>
     <div class="row g-3">
         <div th:each="s : ${statistike}" class="col-6 col-xl-3">
-            <div class="card stat-card h-100 p-3">
+            <div class="card stat-card h-100 p-3" th:classappend="${s.poveznica == '/dokumenti' ? 'stat-documents' : ''}">
                 <a th:href="@{${s.poveznica}}">
                     <span class="d-block text-secondary small mb-2" th:text="${s.naziv}"></span>
                     <span class="d-block stat-number" th:text="${s.broj}"></span>
+                    <span class="stat-hint" th:text="${s.poveznica == '/dokumenti' ? (s.broj > 0 ? 'Otvorite zahtjeve za obradu' : 'Nema zahtjeva na čekanju') : 'Otvori evidenciju'}"></span>
                 </a>
             </div>
         </div>
@@ -33,20 +52,51 @@
     </div>
 </section>
 
-<section class="card card-section">
+<section id="najnovije-obavijesti" class="card card-section home-notices">
     <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
-        <h2 class="mb-0">Obavijesti</h2>
+        <div><p class="section-kicker">Iz života naše župe</p><h2 class="mb-0">Obavijesti</h2></div>
         <a th:href="@{/obavijesti}" class="btn btn-outline-primary btn-sm">Sve obavijesti</a>
     </div>
     <p th:if="${obavijesti.isEmpty()}" class="text-secondary mb-0 py-3">Trenutačno nema obavijesti.</p>
+    <div class="home-notice-grid">
     <article class="notice-preview" th:each="o : ${obavijesti}">
+        <p class="notice-date" th:text="${#temporals.format(o.datumObjave, 'dd.MM.yyyy.')}"></p>
         <h3><a th:href="@{/obavijesti/{id}(id=${o.id})}" th:text="${o.naslov}"></a></h3>
         <div class="d-flex flex-wrap align-items-center gap-3 small text-secondary">
-            <span th:text="${#temporals.format(o.datumObjave, 'dd.MM.yyyy.')}"></span>
             <span class="badge notice-badge" th:if="${o.istaknuta}">Istaknuta obavijest</span>
         </div>
+        <p class="notice-excerpt" th:text="${#strings.abbreviate(o.sadrzaj, 180)}"></p>
+        <a class="notice-read" th:href="@{/obavijesti/{id}(id=${o.id})}">Pročitajte više <span aria-hidden="true">→</span><span class="visually-hidden" th:text="${': ' + o.naslov}"></span></a>
     </article>
+    </div>
 </section>
+<div th:unless="${izgled.prijavljen}" class="parish-info-grid">
+    <section class="card card-section parish-about" aria-labelledby="zupa-naslov">
+        <p class="section-kicker">Naša zajednica</p>
+        <h2 id="zupa-naslov">O župi Gradnići</h2>
+        <p>Dobro došli na mjesto susreta župne zajednice Gradnići. Ovdje možete pratiti obavijesti i raspored svetih misa te pronaći informacije za kontakt sa župnim uredom.</p>
+        <h3>Župni ured</h3>
+        <p class="mb-0">Za dogovor o krštenju, prvoj pričesti, krizmi i vjenčanju, upis misnih nakana ili izdavanje župnih dokumenata obratite se župnom uredu.</p>
+    </section>
+    <section id="kontakt" class="card card-section parish-contact" aria-labelledby="kontakt-naslov">
+        <p class="section-kicker">Tu smo za vas</p>
+        <h2 id="kontakt-naslov">Kontakt i informacije</h2>
+        <dl class="contact-list">
+            <div><dt>Adresa</dt><dd th:text="${#strings.isEmpty(kontaktZupe.adresa) ? 'Gradnići · točna adresa bit će objavljena naknadno.' : kontaktZupe.adresa}"></dd></div>
+            <div><dt>Telefon</dt><dd>
+                <a th:unless="${#strings.isEmpty(kontaktZupe.telefon)}" th:href="${'tel:' + #strings.replace(#strings.replace(#strings.replace(kontaktZupe.telefon, '(0)', ''), ' ', ''), '-', '')}" th:text="${kontaktZupe.telefon}"></a>
+                <span th:if="${#strings.isEmpty(kontaktZupe.telefon)}">Broj telefona bit će objavljen naknadno.</span>
+            </dd></div>
+            <div th:unless="${#strings.isEmpty(kontaktZupe.mobitel)}"><dt>Mobitel</dt><dd><a th:href="${'tel:' + #strings.replace(#strings.replace(#strings.replace(kontaktZupe.mobitel, '(0)', ''), ' ', ''), '-', '')}" th:text="${kontaktZupe.mobitel}"></a></dd></div>
+            <div th:unless="${#strings.isEmpty(kontaktZupe.email)}"><dt>E-pošta</dt><dd><a th:href="${'mailto:' + kontaktZupe.email}" th:text="${kontaktZupe.email}"></a></dd></div>
+            <div><dt>Radno vrijeme ureda</dt><dd>
+                <p class="mb-2" th:text="${kontaktZupe.radnoVrijeme}"></p>
+                <p class="mb-2">Nedjelja: kratko nakon svete mise.</p>
+                <p class="mb-0">Napomena: dokumenti i potvrde ne izdaju se nedjeljom.</p>
+            </dd></div>
+        </dl>
+    </section>
+</div>
 </main>
 </body>
 </html>
